@@ -1,4 +1,4 @@
-# ORFEErc
+# ORFEErc (prototype)
 Opinionated result handling for c#
 
 _"... This led me to suggest that the null value is a member of every type, and a null check is required on every use of that reference variable, and it may be perhaps a billion dollar mistake."_ --- Sir Charles Antony Richard Hoare co-inventor of ALGOL 
