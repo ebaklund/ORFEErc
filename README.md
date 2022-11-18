@@ -8,7 +8,7 @@ Unfortunately, the tools given in C#, namely null references and exceptions, do 
 
 - Both tools can easily be used by a function to signal failed computations.
 - But, thos signals are easy to overlook by the caller.
-- And, none of the tools suggest a consistent way to handle result and failures up the call hierachy.
+- And, none of the tools suggest a consistent way to handle result and failures up the call stack.
 
 The ORFEE library attempts to address these issues.
 The methods used herein are inspired the Result monads implemented in Haskell, Rust and other programming languages.
