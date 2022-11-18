@@ -17,4 +17,4 @@ The monads from different languages work diffenently but all provide some resist
 This library also suggest an idiomatic protocol for handling all results.
 
 ---
-Watch Hoare: https://www.youtube.com/watch?v=ybrQvs4x0Ps at 27:40
+Watch Hoare at 27:40: https://www.youtube.com/watch?v=ybrQvs4x0Ps 
