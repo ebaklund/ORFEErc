@@ -1,7 +1,7 @@
 # ORFEErc
 Opinionated result handling for c#
 
-"... This led me to suggest that the null value is a member of every type, and a null check is required on every use of that reference variable, and it may be perhaps a billion dollar mistake." --- Sir Charles Antony Richard Hoare co-inventor of ALGOL 
+_"... This led me to suggest that the null value is a member of every type, and a null check is required on every use of that reference variable, and it may be perhaps a billion dollar mistake."_ --- Sir Charles Antony Richard Hoare co-inventor of ALGOL 
 
 It is the opinion to the owner of this repo that result handling and failure handling are two sides of the same task.
 Unfortunately, the tools given in C#, namely null references and exceptions, do not enforce disiplin and protocol neccesary to build robust result handling.
