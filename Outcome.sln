@@ -6,8 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B53BB37-4090-4F93-9E82-2FC0CECA1E5B}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-		..\LICENSE = ..\LICENSE
-		..\README.md = ..\README.md
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcome", "src\Outcome\Outcome.csproj", "{7FD07D04-5CE0-440A-A969-9B651F310A72}"

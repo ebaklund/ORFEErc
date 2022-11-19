@@ -6,26 +6,20 @@ using System.Threading.Tasks;
 
 namespace Outcome;
 
-public class Result
+public record Result
 {
     internal Result()
     {
     }
 
-    public static Result Defined()
+    //
+
+    public static Result Ok()
     {
-        return new Defined();
+        return new Ok();
     }
 
-    public static Result Nil(string message)
-    {
-        return new Nil(message);
-    }
-
-    public static Result Nil(string message, Exception innerEx)
-    {
-        return new Nil(message, innerEx);
-    }
+    //
 
     public static Result Error(string message)
     {
@@ -35,5 +29,36 @@ public class Result
     public static Result Error(string message, Exception innerEx)
     {
         return new Error(message, innerEx);
+    }
+
+    //
+
+    public static Result<T> Ok<T>(T value)
+    {
+        return new Ok<T>(value);
+    }
+
+    //
+
+    public static Result<T> Nothing<T>(string message)
+    {
+        return new Nothing<T>(message);
+    }
+
+    public static Result<T> Nothing<T>(string message, Exception innerEx)
+    {
+        return new Nothing<T>(message, innerEx);
+    }
+
+    //
+
+    public static Result<T> Error<T>(string message)
+    {
+        return new Error<T>(message);
+    }
+
+    public static Result<T> Error<T>(string message, Exception innerEx)
+    {
+        return new Error<T>(message, innerEx);
     }
 }
