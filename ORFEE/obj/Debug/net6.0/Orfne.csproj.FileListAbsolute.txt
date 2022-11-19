@@ -1,0 +1,12 @@
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\Orfne.csproj.AssemblyReference.cache
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\Orfne.GeneratedMSBuildEditorConfig.editorconfig
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\Orfne.AssemblyInfoInputs.cache
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\Orfne.AssemblyInfo.cs
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\Orfne.csproj.CoreCompileInputs.cache
+D:\GIT-EB\ORFEErc\ORFEE\bin\Debug\net6.0\Orfne.deps.json
+D:\GIT-EB\ORFEErc\ORFEE\bin\Debug\net6.0\Orfne.dll
+D:\GIT-EB\ORFEErc\ORFEE\bin\Debug\net6.0\Orfne.pdb
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\Orfne.dll
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\refint\Orfne.dll
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\Orfne.pdb
+D:\GIT-EB\ORFEErc\ORFEE\obj\Debug\net6.0\ref\Orfne.dll
