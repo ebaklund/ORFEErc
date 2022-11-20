@@ -26,7 +26,7 @@ public static class ErrorTResultExtension
         return result switch
         {
             Error<T> error => error,
-            _ => throw new  System.InvalidCastException($"Input Result is not of Error<{typeof(T).Name}> type.")
+            _ => throw new  System.InvalidCastException($"Input Result is not of type: Error<{typeof(T).Name}>.")
         };
     }
 }

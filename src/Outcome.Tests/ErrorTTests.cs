@@ -10,8 +10,8 @@ public class Given_an_ErrorT_Constructor
         private static string _msg3 = "3";
         private static Exception _innerEx = new(_msg3);
 
-        private Result<int> _errInstance1 = Result.Error<int>(_msg1);
-        private Result<int> _errInstance2 = Result.Error<int>(_msg2, _innerEx);
+        private Result<int> _errInstance1 = Result<int>.Error(_msg1);
+        private Result<int> _errInstance2 = Result<int>.Error(_msg2, _innerEx);
 
         [Fact]
         public void It_succeeds()
@@ -38,14 +38,21 @@ public class Given_an_ErrorT_Constructor
         public void Result_cannot_resolve_to_OkT()
         {
             var func = new Func<Result<int>>(() => _errInstance1.OkOrThrow<int>());
-            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of Ok<Int32> type.");
+            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Ok<Int32>.");
+        }
+
+        [Fact]
+        public void Result_cannot_resolve_to_Value()
+        {
+            Func<int> func = () => _errInstance1.ValueOrThrow<int>();
+            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Ok<Int32>.");
         }
 
         [Fact]
         public void Result_cannot_resolve_to_NothingT()
         {
             var func = new Func<Result<int>>(() => _errInstance1.NothingOrThrow<int>());
-            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of Nothing<Int32> type.");
+            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Nothing<Int32>.");
         }
 
         [Fact]

@@ -13,7 +13,7 @@ public static class UndefinedTResultExtension
         return (result as Undefined<T>) switch
         {
             Undefined<T> undefined => undefined,
-            _ => throw new System.InvalidCastException($"Input Result is not of Undefined<{typeof(T).Name}> type.")
+            _ => throw new System.InvalidCastException($"Input Result is not of type: Undefined<{typeof(T).Name}>.")
         };
     }
 }

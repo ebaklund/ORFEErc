@@ -19,7 +19,7 @@ public static class ErrorResultExtension
         return result switch
         {
             Error error => error,
-            _ => throw new  System.InvalidCastException("Input Result is not of Error type.")
+            _ => throw new  System.InvalidCastException("Input Result is not of type: Error.")
         };
     }
 }

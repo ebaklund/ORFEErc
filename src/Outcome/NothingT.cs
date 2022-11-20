@@ -26,7 +26,7 @@ public static class NothingExtension
         return result switch
         {
             Nothing<T> nothing => nothing,
-            _ => throw new System.InvalidCastException($"Input Result is not of Nothing<{typeof(T).Name}> type.")
+            _ => throw new System.InvalidCastException($"Input Result is not of type: Nothing<{typeof(T).Name}>.")
         };
     }
 }

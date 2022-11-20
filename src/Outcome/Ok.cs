@@ -10,7 +10,7 @@ public static class OkResultExtension
         return result switch
         {
             Ok ok => ok,
-            _ => throw new System.InvalidCastException($"Input Result is not of Ok type.")
+            _ => throw new System.InvalidCastException($"Input Result is not of type: Ok.")
         };
     }
 }

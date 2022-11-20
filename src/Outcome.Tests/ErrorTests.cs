@@ -31,7 +31,7 @@ public class Given_an_Error_Constructor
         public void Result_cannot_resolve_to_Ok()
         {
             var func = new Func<Result>(() => _errInstance1.OkOrThrow());
-            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of Ok type.");
+            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Ok.");
         }
 
         [Fact]
