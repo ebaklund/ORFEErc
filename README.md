@@ -1,67 +1,80 @@
-# The Outcome library (prototype)
-Opinionated result handling for c#.
+# Outcome (experimental)
 
-_"... This led me to suggest that the null value is a member of every type, and a null check is required on every use of that reference variable, and it may be perhaps a billion dollar mistake."_ --- Sir Charles Antony Richard Hoare co-inventor of ALGOL 
+Opinionated outcome handling for c#.
 
-It is the opinion to the owner of this repo that success handling and failure handling are two sides of the same task.
-We will call this task `result handling`.
-Unfortunately, C# do not provide the neccesary tools to build robust result handling.
-What we are given is `null references` and `exceptions`.
+_"... This led me to suggest that the null value is a member of every type, 
+and a null check is required on every use of that reference variable, 
+and it may be perhaps a billion dollar mistake."_ 
+--- Sir Charles Antony Richard Hoare, co-inventor of ALGOL 
 
-- Both tools can easily be used to signal failed computations.
-- But, those signals are easy to overlook by the caller.
+_ "Exceptions are worse than gotos (in some ways)"_
+--- 
+It is the opinion to the owner of this repository that success handling and 
+failure handling are two sides of the same task: `outcome handling`.
+
+Unfortunately, C# do not provide the necessary tools to do this task robustly.
+We only are given `null references` and `exceptions` as outcome handling tools.
+The problem with these tools are that the demand unrealistic acuteness from the programmer and 
+do not by themselves suggest a consistent way of handling outcomes.
+
+- Both tools can easily be used to signal failures
+- But, those signals are easy to overlook by the caller
 - And, none of the tools suggest a consistent way to handle results up the call stack.
 
 The Outcome library attempts to address these issues.
-The methods used herein are inspired the Result monads implemented in Haskell, in Rust and in other programming languages.
-The monads from different languages work diffenently but all provide some resistance for the caller to use unchecked results.
+The methods used herein are inspired the Result monads implemented in Haskell, 
+Rust and in other programming languages.
+The monads from different languages work differently but 
+all provide some resistance for the caller to use unchecked results.
 
 This library also suggest an idiomatic protocol for handling all outcomes.
 
-# Ontology
+**Outcome is an experimental library where the API can change at any time without notice.**
 
-The ontology of the classes defined in this library is based on a classification of computational result.
+## Outcome Ontology
+
+The ontology defined in this library is based on a classification of computational outcomes.
 
 ```
-[Result]
+[Outcome]
 ```
 
 The computations may succeed or fail.
 
 ```
-     [Result]
+     [Outcome]
       /    \
 [Success]  [Failure]   
 ```
-At the same time, the computation may have yielded a value (or resource). It is still a computational result, but yields additional information of type **T**.
+At the same time, the computation may have yielded a value (or resource). It is still a computational result, but yields additional information of some type **T**.
 ```
-           [Result]
+           [Outcome]
          /     |     \
 [Success]  [Failure]  [Result<T>] 
 ```
 The computation yielding a value may also have succeeded or failed.
 ```
-           [Result]
+           [Outcome]
          /     |     \
 [Success]  [Failure]  [Resource<T>] 
                          /    \
                [Success<T>]  [Failure<T>]              
 ```
-Although in in this case we are usually more interested in the value yielded and not in the computation itself.
+Although in this case, we are usually more interested in the value yielded and not in the computation itself.
 We can think of this that as that the value is a resource, input for further computation.
 The value will either be defined or undefined. We rename accordingly.
 ```
-           [Result]
+           [Outcome]
          /     |     \
 [Success]  [Failure]  [Result<T>] 
                         /    \
               [Defined<T>]  [Undefined<T>]              
 ```
 There are several reasons why a function cannot provide a defined resource, but they generally fall in two categories:
-1. The preconditions for a function to work (domain) are not well defined. We call this an error.
-2. The preconditions are valid, but even so, the value or resource cannot be produced. We represent this with the exceptional class Nothing.
+1. The input (domain) and context are not within the valid preconditions for a function to work. We call this an error.
+2. The preconditions are valid, but even so, there are situations where it makes sense to return nothing.
 ```
-           [Result]
+           [Outcome]
          /     |     \
 [Success]  [Failure]  [Result<T>] 
                         /    \
@@ -70,32 +83,32 @@ There are several reasons why a function cannot provide a defined resource, but 
                      [Nothing<T>]  [Error<T>]              
 ```
 For example, let us assume that we have a function that returns the first element in an array.
-It would be resonable to make the following computational rules:
+It would be reasonable to make the following computational rules:
 - If the input array do not exist (is null), then we return an error.
-- If the input array do exist but it is empty, that is ok, but since there is no value to return we choose to return a Nothing object.
+- If the input array do exist but it is empty, that is OK, but since there is no value to return we choose to return nothing.
 - Otherwise, we just return the first element.
 ```
-  Result First(List<T> arr)
+  Outcome<T> First(List<T> arr)
   {
      if (arr is null)
-       return Result.Error<T>("Array is undefined");
+       return Outcome.Error<T>("Array is undefined");
        
      if (arr.Length == 0)
-       return Result.Nothing<T>("Array is empty");
+       return Outcome.Nil<T>("Array is empty");
        
      return arr[0];
   }
 ```
-Of cource there are other situations where we would consider it an error if we cannot produce the first element.
-That leads to a different choice of results.
+There are other of course situations where we would consider it an error if the first element does not exists.
+That leads to a different choice of outcomes.
 ```
-  Result First(List<T> arr)
+  Outcome<T> First(List<T> arr)
   {
-     if (arr is null || )
-       return Result.Error<T>("Array is undefined");
+     if (arr is null)
+       return Outcome.Error<T>("Array is undefined");
        
      if (arr.Length == 0)
-       return Result.Error<T>("Array is empty");
+       return Outcome.Error<T>("Array is empty");
        
      return arr[0];
   }
@@ -103,10 +116,10 @@ That leads to a different choice of results.
 The basic ontology is now in place.
 However, it is possible to do some syntactical changes that arguably can make this library more intuitive to use.
 This can be done by first extending the ontology with some aliases. 
-Aliases do not add semantics to the ontology, they just refer to parent consepts with a different name. 
+Aliases do not add semantics to the ontology, they just refer to parent concepts with a different name.
 Alias relations are indicated with the notation `||`.
 ```
-           [Result]
+           [Outcome]
          /     |     \
 [Success]  [Failure]  [Result<T>] 
    ||         ||           |
@@ -114,31 +127,52 @@ Alias relations are indicated with the notation `||`.
                          /    \
              [Defined<T>]      [Undefined<T>]              
                   ||               /    \
-                [Ok<T>]  [Nothing<T>]  [Error<T>]              
+                [Ok<T>]  [Nothing<T>]  [Error<T>]
+                             ||
+                           [Nil<T>]              
 ```
 Preening the ontology by removing the original concept terms, we end up with:
 ```
-            [Result]
+            [Outcome]
           /     |     \
        [Ok]  [Error]  [Result<T>] 
                         /    \
                    [Ok<T>]  [Undefined<T>]              
                                /    \
-                     [Nothing<T>]  [Error<T>]              
+                         [Nil<T>]  [Error<T>]              
 ```
-Even though there is a sematic relation between `Result` and `Result<T>`, we do not actually want to implement it.
+Even though there is a semantic relation between `Result` and `Result<T>`, we do not actually want to implement it.
 We want to let `Result` and `Result<T>` be incompatible in order to have a clear separation between generic and non-generic types.
 That makes for more readable code and less confusion for the programmer.
 
 Cutting the relation gives this ontology:
 ```
-           [Result]             [Result<T>]
+          [Outcome]             [Outcome<T>]
             /   \                 /    \
          [Ok]  [Error]       [Ok<T>]  [Undefined<T>]              
                                          /    \
-                               [Nothing<T>]  [Error<T>]              
+                                   [Nil<T>]  [Error<T>]              
 ```
 
 That is the class structure used in this library.
+
+## Outcome usage
+We will here provide some general advice on which outcome to return in different situations.
+We assume that a computational unit either is a subroutine returning `void` or 
+a function returning a value of type `T`.
+
+- `Ok` - When a subroutine has successfully completed.
+- `Error` - When a subroutine fail to complete it's task. It is often reasonable to map exceptions to `Error`.
+- `Ok<T>` - When a function is able to produce a valid value.
+- `Nil<T>` - When a function is successful but a return value is not applicable. It is often reasonable to map `null` to `Nil<T>`.
+- `Error<T>` - When a function fail. Usually due to invalid input values or unavailable resources.  It is often reasonable to map exceptions to `Error<T>`.
+
+The Outcome library imposes a slight computational overhead.
+That should not matter much since the extra drag is diminishing small when it is used for 
+higher level outcome handling in the communication between a client and some service. 
+
+The extra drag may show if Outcome is used in the inner loops of RAM only processes.
+It will be up to the programmer to decide if Outcome is a viable tool in any circumstance.  
+
 ---
-Watch Hoare at 27:40: https://www.youtube.com/watch?v=ybrQvs4x0Ps 
+Watch Hoare at 27:40 in the video: https://www.youtube.com/watch?v=ybrQvs4x0Ps 

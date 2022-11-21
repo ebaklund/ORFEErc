@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Outcome;
 
-public record Result
+public record Outcome
 {
-    internal Result()
+    internal Outcome()
     {
     }
 
-    public static Result Ok()
+    public static Outcome Ok()
     {
         return new Ok();
     }
 
-    public static Result Error(string message)
+    public static Outcome Error(string message)
     {
         return new Error(message);
     }
 
-    public static Result Error(string message, Exception innerEx)
+    public static Outcome Error(string message, Exception innerEx)
     {
         return new Error(message, innerEx);
     }

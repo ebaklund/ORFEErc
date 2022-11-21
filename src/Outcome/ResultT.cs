@@ -8,14 +8,14 @@ public record Result<T>
         return new Ok<T>(value);
     }
 
-    public static Result<T> Nothing(string message)
+    public static Result<T> Nil(string message)
     {
-        return new Nothing<T>(message);
+        return new Nil<T>(message);
     }
 
-    public static Result<T> Nothing(string message, Exception innerEx)
+    public static Result<T> Nil(string message, Exception innerEx)
     {
-        return new Nothing<T>(message, innerEx);
+        return new Nil<T>(message, innerEx);
     }
 
     public static Result<T> Error(string message)

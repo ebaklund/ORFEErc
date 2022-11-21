@@ -1,11 +1,11 @@
 ﻿
 namespace Outcome;
 
-public record Ok : Result;
+public record Ok : Outcome;
 
 public static class OkResultExtension
 {
-    public static Ok OkOrThrow(this Result result)
+    public static Ok OkOrThrow(this Outcome result)
     {
         return result switch
         {

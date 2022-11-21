@@ -5,25 +5,25 @@ public class Given_an_Ok_Constructor
 {
     public class When_Invoked : Given_an_Ok_Constructor
     {
-        private Result _okInstance = Result.Ok();
+        private Outcome _ok = Outcome.Ok();
 
         [Fact]
         public void It_succeeds()
         {
-            (_okInstance is Ok).Should().BeTrue();
+            (_ok is Ok).Should().BeTrue();
         }
 
         [Fact]
         public void Result_can_resolve_to_Ok()
         {
-            var func = new Func<Result>(() => _okInstance.OkOrThrow());
+            Func<Outcome> func = () => _ok.OkOrThrow();
             func.Should().NotThrow();
         }
 
         [Fact]
         public void Result_cannot_resolve_to_Error()
         {
-            var func = new Func<Result>(() => _okInstance.ErrorOrThrow());
+            Func<Outcome> func = () => _ok.ErrorOrThrow();
             func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Error.");
         }
     }

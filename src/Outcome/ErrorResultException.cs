@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Outcome;
 
-public class ErrorResultException : NothingResultException
+public class ErrorResultException : NilResultException
 {
     internal ErrorResultException(string message)
         : base(message)

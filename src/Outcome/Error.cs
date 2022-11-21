@@ -1,7 +1,7 @@
 ﻿
 namespace Outcome;
 
-public record Error(ErrorResultException Reason) : Result
+public record Error(ErrorResultException Reason) : Outcome
 {
     internal Error(string message) : this(new ErrorResultException(message))
     {
@@ -14,7 +14,7 @@ public record Error(ErrorResultException Reason) : Result
 
 public static class ErrorResultExtension
 {
-    public static Error ErrorOrThrow(this Result result)
+    public static Error ErrorOrThrow(this Outcome result)
     {
         return result switch
         {

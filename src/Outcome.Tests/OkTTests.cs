@@ -10,64 +10,64 @@ public class Given_an_OkT_Constructor
         private const int _value1 = 1;
         private const string _value2 = "2";
 
-        private Result<int> _okInstance1 = Result<int>.Ok(_value1);
-        private Result<string> _okInstance2 = Result<string>.Ok(_value2);
+        private Result<int> _ok1 = Result<int>.Ok(_value1);
+        private Result<string> _ok2 = Result<string>.Ok(_value2);
 
         [Fact]
         public void It_succeeds()
         {
-            (_okInstance1 is Ok<int>).Should().BeTrue();
-            (_okInstance2 is Ok<string>).Should().BeTrue();
+            (_ok1 is Ok<int>).Should().BeTrue();
+            (_ok2 is Ok<string>).Should().BeTrue();
         }
 
         [Fact]
         public void Result_can_resolve_to_Ok()
         {
-            var func1 = new Func<Result<int>>(() => _okInstance1.OkOrThrow<int>());
+            Func<Result<int>> func1 = () => _ok1.OkOrThrow<int>();
             func1.Should().NotThrow();
 
-            var func2 = new Func<Result<string>>(() => _okInstance2.OkOrThrow<string>());
+            Func<Result<string>> func2 = () => _ok2.OkOrThrow<string>();
             func2.Should().NotThrow();
         }
 
         [Fact]
         public void Result_can_resolve_Value()
         {
-            Func<int> func1 = () => _okInstance1.ValueOrThrow<int>();
+            Func<int> func1 = () => _ok1.ValueOrThrow<int>();
             func1.Should().NotThrow().Which.Should().Be(_value1);
 
-            Func<string> func2 = () => _okInstance2.ValueOrThrow<string>();
+            Func<string> func2 = () => _ok2.ValueOrThrow<string>();
             func2.Should().NotThrow().Which.Should().Be(_value2);
         }
 
         [Fact]
         public void Result_cannot_resolve_to_Undefined()
         {
-            var func1 = new Func<Result<int>>(() => _okInstance1.UndefinedOrThrow<int>());
+            Func<Result<int>> func1 = () => _ok1.UndefinedOrThrow<int>();
             func1.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Undefined<Int32>.");
 
-            var func2 = new Func<Result<string>>(() => _okInstance2.UndefinedOrThrow<string>());
+            Func<Result<string>> func2 = () => _ok2.UndefinedOrThrow<string>();
             func2.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Undefined<String>.");
         }
 
         [Fact]
         public void Result_cannot_resolve_to_ErrorT()
         {
-            var func1 = new Func<Result<int>>(() => _okInstance1.ErrorOrThrow<int>());
+            Func<Result<int>> func1 = () => _ok1.ErrorOrThrow<int>();
             func1.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Error<Int32>.");
 
-            var func2 = new Func<Result<string>>(() => _okInstance2.ErrorOrThrow<string>());
+            Func<Result<string>> func2 = () => _ok2.ErrorOrThrow<string>();
             func2.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Error<String>.");
         }
 
         [Fact]
-        public void Result_cannot_resolve_to_NothingT()
+        public void Result_cannot_resolve_to_NilT()
         {
-            var func1 = new Func<Result<int>>(() => _okInstance1.NothingOrThrow<int>());
-            func1.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Nothing<Int32>.");
+            Func<Result<int>> func1 = () => _ok1.NilOrThrow<int>();
+            func1.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Nil<Int32>.");
 
-            var func2 = new Func<Result<string>>(() => _okInstance2.NothingOrThrow<string>());
-            func2.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Nothing<String>.");
+            Func<Result<string>> func2 = () => _ok2.NilOrThrow<string>();
+            func2.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Nil<String>.");
         }
     }
 }
