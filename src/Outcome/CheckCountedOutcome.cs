@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace OutcomeCs;
 
 public record CheckCountedOutcome : IDisposable
 {
-    private int _checkCount;
+private int _checkCount;
 
     internal CheckCountedOutcome()
     {
@@ -17,8 +12,8 @@ public record CheckCountedOutcome : IDisposable
 
     public void IncrementCheckCounter()
     {
-      // Outcomes must always be checked. If not, throw exception when outcome is disposed.
-      _checkCount++;
+        // Outcomes must always be checked. If not, throw exception when outcome is disposed.
+        _checkCount++;
     }
 
     public void Dispose()
