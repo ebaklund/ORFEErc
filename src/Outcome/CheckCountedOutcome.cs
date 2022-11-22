@@ -17,7 +17,7 @@ public record CheckCountedOutcome : IDisposable
 
     public void IncrementCheckCounter()
     {
-      // Outcomes must always be checked. If not, exception will not be thrown.
+      // Outcomes must always be checked. If not, throw exception when outcome is disposed.
       _checkCount++;
     }
 
@@ -25,8 +25,8 @@ public record CheckCountedOutcome : IDisposable
     {
         if (_checkCount == 0)
         {
-         // Intentionally violate Microsoft design rule CA1065 by throwing exception.
-         throw new UncheckedOutcomeException(this);
+            // Intentionally violate Microsoft design rule CA1065 by throwing exception.
+            throw new UncheckedOutcomeException(this);
         }
     }
 }
