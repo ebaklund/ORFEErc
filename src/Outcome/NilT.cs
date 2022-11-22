@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Outcome;
+namespace OutcomeCs;
 
 public record Nil<T> : Undefined<T>
 {
@@ -21,9 +21,11 @@ public record Nil<T> : Undefined<T>
 
 public static class NilExtension
 {
-    public static Nil<T> NilOrThrow<T>(this Outcome<T> result)
+    public static Nil<T> NilOrThrow<T>(this Outcome<T> outcome)
     {
-        return result switch
+        outcome.IncrementCheckCounter();
+
+        return outcome switch
         {
             Nil<T> nothing => nothing,
             _ => throw new System.InvalidCastException($"Input Outcome is not of type: Nil<{typeof(T).Name}>.")

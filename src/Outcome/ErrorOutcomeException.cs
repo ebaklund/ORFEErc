@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Outcome;
+namespace OutcomeCs;
 
-public class ErrorOutcomeException : NilOutcomeException
+public class ErrorOutcomeException : UndefinedOutcomeException
 {
     internal ErrorOutcomeException(string message)
         : base(message)

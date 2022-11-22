@@ -1,7 +1,7 @@
 ﻿
-namespace Outcome;
+namespace OutcomeCs;
 
-public record Outcome<T>
+public record Outcome<T> : CheckCountedOutcome
 {
     public static Outcome<T> Ok(T value)
     {

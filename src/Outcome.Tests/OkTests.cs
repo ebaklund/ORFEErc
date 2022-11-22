@@ -1,5 +1,5 @@
 
-namespace Outcome.Tests;
+namespace OutcomeCs.Tests;
 
 public class Given_an_Ok_Constructor
 {

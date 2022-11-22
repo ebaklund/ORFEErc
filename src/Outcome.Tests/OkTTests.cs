@@ -1,7 +1,7 @@
 
 using Newtonsoft.Json.Linq;
 
-namespace Outcome.Tests;
+namespace OutcomeCs.Tests;
 
 public class Given_an_OkT_Constructor
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Outcome;
+namespace OutcomeCs;
 
 public record Error<T> : Undefined<T>
 {
@@ -21,9 +21,11 @@ public record Error<T> : Undefined<T>
 
 public static class ErrorTOutcomeExtension
 {
-    public static Error<T> ErrorOrThrow<T>(this Outcome<T> result)
+    public static Error<T> ErrorOrThrow<T>(this Outcome<T> outcome)
     {
-        return result switch
+        outcome.IncrementCheckCounter();
+
+        return outcome switch
         {
             Error<T> error => error,
             _ => throw new  System.InvalidCastException($"Input Outcome is not of type: Error<{typeof(T).Name}>.")

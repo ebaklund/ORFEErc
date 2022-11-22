@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace OutcomeCs;
 
-namespace Outcome;
-
-public record Outcome
+public record Outcome : CheckCountedOutcome
 {
     internal Outcome()
     {

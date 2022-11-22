@@ -173,5 +173,14 @@ higher level outcome handling in the communication between a client and some ser
 The extra drag may be more pronounced if Outcome is used in the inner loops of some RAM-only processes.
 It will be up to the programmer to decide if Outcome is a viable tool dependent on circumstance.  
 
+## Outcome example `List<T>`
+
+The .NET generic class `List<T>` is an example of a class throwing exceptions and returning nulls.
+In that respect i can serve as a good example of wrap an existing class with Outcome.
+The point of this example is not that programmers should start to go around and wrap .NET classes.
+The point is to show how some class, using a .NET resource, may expose its result using Outcome.
+To avoid an example with distracting code
+
+
 ---
 Watch Hoare at 27:40 in the video: https://www.youtube.com/watch?v=ybrQvs4x0Ps 

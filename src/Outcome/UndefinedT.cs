@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Outcome;
+namespace OutcomeCs;
 
 public record Undefined<T>(UndefinedOutcomeException Reason) : Outcome<T>;
 

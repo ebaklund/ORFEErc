@@ -1,6 +1,6 @@
 
 using FluentAssertions;
-using Outcome;
+using OutcomeCs;
 
 namespace Readme.Tests;
 

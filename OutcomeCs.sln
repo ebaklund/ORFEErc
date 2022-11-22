@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcome", "src\Outcome\Outcome.csproj", "{7FD07D04-5CE0-440A-A969-9B651F310A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutcomeCs", "src\Outcome\OutcomeCs.csproj", "{7FD07D04-5CE0-440A-A969-9B651F310A72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcome.Tests", "src\Outcome.Tests\Outcome.Tests.csproj", "{37D012D6-3B40-4215-AE48-65431409CC30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutcomeCs.Tests", "src\Outcome.Tests\OutcomeCs.Tests.csproj", "{37D012D6-3B40-4215-AE48-65431409CC30}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Readme.Tests", "src\Readme.Tests\Readme.Tests.csproj", "{74ED551E-4894-47D7-92CC-637D45962C33}"
 EndProject

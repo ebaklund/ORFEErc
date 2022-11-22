@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Outcome;
+namespace OutcomeCs;
 
 public class NilOutcomeException : UndefinedOutcomeException
 {

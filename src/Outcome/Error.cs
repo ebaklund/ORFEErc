@@ -1,5 +1,5 @@
 ﻿
-namespace Outcome;
+namespace OutcomeCs;
 
 public record Error(ErrorOutcomeException Reason) : Outcome
 {
@@ -14,9 +14,11 @@ public record Error(ErrorOutcomeException Reason) : Outcome
 
 public static class ErrorResultExtension
 {
-    public static Error ErrorOrThrow(this Outcome result)
+    public static Error ErrorOrThrow(this Outcome outcome)
     {
-        return result switch
+        outcome.IncrementCheckCounter();
+
+        return outcome switch
         {
             Error error => error,
             _ => throw new  System.InvalidCastException("Input Result is not of type: Error.")
