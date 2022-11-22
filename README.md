@@ -88,30 +88,29 @@ It would be reasonable to make the following computational rules:
 - If the input array do exist but it is empty, that is OK, but since there is no value to return we choose to return nothing.
 - Otherwise, we just return the first element.
 ```
-  Outcome<T> First(List<T> arr)
-  {
-     if (arr is null)
-       return Outcome.Error<T>("Array is undefined");
-       
-     if (arr.Length == 0)
-       return Outcome.Nil<T>("Array is empty");
-       
-     return arr[0];
-  }
+    public static Outcome<T> FirstInList_1<T>(List<T> list)
+    {
+        return list?.Count switch
+        {
+            null => Outcome<T>.Error("Array is undefined"),
+            0 => Outcome<T>.Nil("Array is empty"), // <== Nil
+            _ => Outcome<T>.Ok(list[0])
+        };
+    }
 ```
-There are other of course situations where we would consider it an error if the first element does not exists.
+There are of course other situations where we would consider it an error if the first element does not exists.
 That leads to a different choice of outcomes.
 ```
-  Outcome<T> First(List<T> arr)
-  {
-     if (arr is null)
-       return Outcome.Error<T>("Array is undefined");
-       
-     if (arr.Length == 0)
-       return Outcome.Error<T>("Array is empty");
-       
-     return arr[0];
-  }
+    public static Outcome<T> FirstInList_2<T>(List<T> list)
+    {
+        return list?.Count switch
+        {
+            null => Outcome<T>.Error("Array is undefined"),
+            0 => Outcome<T>.Error("Array is empty"), // <== Error
+            _ => Outcome<T>.Ok(list[0])
+        };
+    }
+
 ```
 The basic ontology is now in place.
 However, it is possible to do some syntactical changes that arguably can make this library more intuitive to use.
@@ -171,8 +170,8 @@ The Outcome library imposes a slight computational overhead.
 That should not matter much since the extra drag is diminishing small when it is used for 
 higher level outcome handling in the communication between a client and some service. 
 
-The extra drag may show if Outcome is used in the inner loops of RAM only processes.
-It will be up to the programmer to decide if Outcome is a viable tool in any circumstance.  
+The extra drag may be more pronounced if Outcome is used in the inner loops of some RAM-only processes.
+It will be up to the programmer to decide if Outcome is a viable tool dependent on circumstance.  
 
 ---
 Watch Hoare at 27:40 in the video: https://www.youtube.com/watch?v=ybrQvs4x0Ps 

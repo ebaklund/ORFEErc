@@ -9,24 +9,24 @@ namespace Outcome;
 public record Error<T> : Undefined<T>
 {
     internal Error(string message)
-        : base(new ErrorResultException(message))
+        : base(new ErrorOutcomeException(message))
     {
     }
 
     internal Error(string message, Exception innerEx)
-        : base(new ErrorResultException(message, innerEx))
+        : base(new ErrorOutcomeException(message, innerEx))
     {
     }
 }
 
-public static class ErrorTResultExtension
+public static class ErrorTOutcomeExtension
 {
-    public static Error<T> ErrorOrThrow<T>(this Result<T> result)
+    public static Error<T> ErrorOrThrow<T>(this Outcome<T> result)
     {
         return result switch
         {
             Error<T> error => error,
-            _ => throw new  System.InvalidCastException($"Input Result is not of type: Error<{typeof(T).Name}>.")
+            _ => throw new  System.InvalidCastException($"Input Outcome is not of type: Error<{typeof(T).Name}>.")
         };
     }
 }

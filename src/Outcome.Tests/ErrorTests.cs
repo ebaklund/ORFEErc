@@ -37,8 +37,8 @@ public class Given_an_Error_Constructor
         [Fact]
         public void Reason_is_retrievable()
         {
-            _err1.ErrorOrThrow().Reason.Should().BeOfType<ErrorResultException>();
-            _err2.ErrorOrThrow().Reason.Should().BeOfType<ErrorResultException>();
+            _err1.ErrorOrThrow().Reason.Should().BeOfType<ErrorOutcomeException>();
+            _err2.ErrorOrThrow().Reason.Should().BeOfType<ErrorOutcomeException>();
         }
 
         [Fact]

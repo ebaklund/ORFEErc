@@ -10,8 +10,8 @@ public class Given_an_ErrorT_Constructor
         private static string _msg3 = "3";
         private static Exception _innerEx = new(_msg3);
 
-        private Result<int> _err1 = Result<int>.Error(_msg1);
-        private Result<int> _err2 = Result<int>.Error(_msg2, _innerEx);
+        private Outcome<int> _err1 = Outcome<int>.Error(_msg1);
+        private Outcome<int> _err2 = Outcome<int>.Error(_msg2, _innerEx);
 
         [Fact]
         public void It_succeeds()
@@ -21,45 +21,45 @@ public class Given_an_ErrorT_Constructor
         }
 
         [Fact]
-        public void Result_can_resolve_to_ErrorT()
+        public void Outcome_can_resolve_to_ErrorT()
         {
-            Func<Result<int>> func = () => _err1.ErrorOrThrow<int>();
+            Func<Outcome<int>> func = () => _err1.ErrorOrThrow<int>();
             func.Should().NotThrow();
         }
 
         [Fact]
-        public void Result_can_resolve_to_UndefinedT()
+        public void Outcome_can_resolve_to_UndefinedT()
         {
-            Func<Result<int>> func = () => _err1.UndefinedOrThrow<int>();
+            Func<Outcome<int>> func = () => _err1.UndefinedOrThrow<int>();
             func.Should().NotThrow();
         }
 
         [Fact]
-        public void Result_cannot_resolve_to_OkT()
+        public void Outcome_cannot_resolve_to_OkT()
         {
-            Func<Result<int>> func = () => _err1.OkOrThrow<int>();
-            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Ok<Int32>.");
+            Func<Outcome<int>> func = () => _err1.OkOrThrow<int>();
+            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Outcome is not of type: Ok<Int32>.");
         }
 
         [Fact]
-        public void Result_cannot_resolve_to_Value()
+        public void Outcome_cannot_resolve_to_Value()
         {
             Func<int> func = () => _err1.ValueOrThrow<int>();
-            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Ok<Int32>.");
+            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Outcome is not of type: Ok<Int32>.");
         }
 
         [Fact]
-        public void Result_cannot_resolve_to_NilT()
+        public void Outcome_cannot_resolve_to_NilT()
         {
-            Func<Result<int>> func = () => _err1.NilOrThrow<int>();
-            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Result is not of type: Nil<Int32>.");
+            Func<Outcome<int>> func = () => _err1.NilOrThrow<int>();
+            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Outcome is not of type: Nil<Int32>.");
         }
 
         [Fact]
         public void Reason_is_retrievable()
         {
-            _err1.ErrorOrThrow<int>().Reason.Should().BeOfType<ErrorResultException>();
-            _err2.ErrorOrThrow<int>().Reason.Should().BeOfType<ErrorResultException>();
+            _err1.ErrorOrThrow<int>().Reason.Should().BeOfType<ErrorOutcomeException>();
+            _err2.ErrorOrThrow<int>().Reason.Should().BeOfType<ErrorOutcomeException>();
         }
 
         [Fact]

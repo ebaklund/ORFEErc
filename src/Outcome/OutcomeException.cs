@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Outcome;
 
-public class ResultException : ApplicationException
+public class OutcomeException : ApplicationException
 {
-    internal ResultException(string message)
+    internal OutcomeException(string message)
         : base(message)
     {
     }
 
-    internal ResultException(string message, Exception innerEx)
+    internal OutcomeException(string message, Exception innerEx)
         : base(message, innerEx)
     {
     }

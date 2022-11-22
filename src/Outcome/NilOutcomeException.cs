@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Outcome;
 
-public class UndefinedResultException : ResultException
+public class NilOutcomeException : UndefinedOutcomeException
 {
-    internal UndefinedResultException(string message)
+    internal NilOutcomeException(string message)
         : base(message)
     {
     }
 
-    internal UndefinedResultException(string message, Exception innerEx)
+    internal NilOutcomeException(string message, Exception innerEx)
         : base(message, innerEx)
     {
     }

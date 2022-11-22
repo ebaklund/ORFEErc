@@ -1,13 +1,13 @@
 ﻿
 namespace Outcome;
 
-public record Error(ErrorResultException Reason) : Outcome
+public record Error(ErrorOutcomeException Reason) : Outcome
 {
-    internal Error(string message) : this(new ErrorResultException(message))
+    internal Error(string message) : this(new ErrorOutcomeException(message))
     {
     }
 
-    internal Error(string message, Exception innerEx) : this(new ErrorResultException(message, innerEx))
+    internal Error(string message, Exception innerEx) : this(new ErrorOutcomeException(message, innerEx))
     {
     }
 }
