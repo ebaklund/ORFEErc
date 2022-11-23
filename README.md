@@ -84,8 +84,9 @@ There are several reasons why a function cannot provide a defined resource, but 
 ```
 For example, let us assume that we have a function that returns the first element in an array.
 It would be reasonable to make the following computational rules:
-- If the input array do not exist (is null), then we return an error.
-- If the input array do exist but it is empty, that is OK, but since there is no value to return we choose to return nothing.
+- If the input array do not exist (is `null`), then we return an `Error`.
+- If the input array do exist but it is empty, that is OK, but since there is no value to return we choose to return `Nil`.
+- If the first element does exist but is `null`, that is OK, but we still return `Nil` to indicate that a real value is not available.
 - Otherwise, we just return the first element.
 ```
     public static Outcome<T> FirstInList_1<T>(List<T> list)
@@ -93,12 +94,16 @@ It would be reasonable to make the following computational rules:
         return list?.Count switch
         {
             null => Outcome<T>.Error("Array is undefined"),
-            0 => Outcome<T>.Nil("Array is empty"), // <== Nil
-            _ => Outcome<T>.Ok(list[0])
+            0 => Outcome<T>.Nothing("Array is empty"),
+            _ => list[0] switch
+            {
+                null => Outcome<T>.Nothing("First item is null"),
+                _ => Outcome<T>.Ok(list[0])
+            }
         };
     }
 ```
-There are of course other situations where we would consider it an error if the first element does not exists.
+There are of course other situations where we would consider it an error if the first element does not exists or is  `null`.
 That leads to a different choice of outcomes.
 ```
     public static Outcome<T> FirstInList_2<T>(List<T> list)
@@ -106,8 +111,12 @@ That leads to a different choice of outcomes.
         return list?.Count switch
         {
             null => Outcome<T>.Error("Array is undefined"),
-            0 => Outcome<T>.Error("Array is empty"), // <== Error
-            _ => Outcome<T>.Ok(list[0])
+            0 => Outcome<T>.Error("Array is empty"), // <== Was Nil
+            _ => list[0] switch
+            {
+                null => Outcome<T>.Error("First item is null"), // <== Was Nil
+                _ => Outcome<T>.Ok(list[0])
+            }
         };
     }
 
@@ -130,7 +139,7 @@ Alias relations are indicated with the notation `||`.
                              ||
                            [Nil<T>]              
 ```
-Preening the ontology by removing the original concept terms, we end up with:
+Preening the ontology by removing the original terms, we end up with:
 ```
             [Outcome]
           /     |     \
@@ -179,7 +188,9 @@ The .NET generic class `List<T>` is an example of a class throwing exceptions an
 In that respect i can serve as a good example of wrap an existing class with Outcome.
 The point of this example is not that programmers should start to go around and wrap .NET classes.
 The point is to show how some class, using a .NET resource, may expose its result using Outcome.
-To avoid an example with distracting code
+To avoid an example with distracting code ...
+
+`TODO`
 
 
 ---
