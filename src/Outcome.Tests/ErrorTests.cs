@@ -54,5 +54,19 @@ public class Given_an_Error_Constructor
             _err1.ErrorOrThrow().Reason.InnerException.Should().Be(null);
             _err2.ErrorOrThrow().Reason.InnerException.Should().Be(_innerEx);
         }
+
+        [Fact]
+        public void Stack_trace_is_retrievable()
+        {
+           _err1.ErrorOrThrow().Reason.OutcomeStackTrace.Should().Contain("OutcomeCs.Tests");
+           _err2.ErrorOrThrow().Reason.OutcomeStackTrace.Should().Contain("OutcomeCs.Tests");
+        }
+
+        [Fact]
+        public void Message_trace_is_retrievable()
+        {
+            _err1.ErrorOrThrow().Reason.OutcomeMessageTrace.Should().Be("1");
+            _err2.ErrorOrThrow().Reason.OutcomeMessageTrace.Should().Be($"2{Environment.NewLine}3");
+        }
     }
 }

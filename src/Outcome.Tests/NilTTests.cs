@@ -75,5 +75,19 @@ public class Given_an_NilT_Constructor
             _nil1.NilOrThrow<int>().Reason.InnerException.Should().Be(null);
             _nil2.NilOrThrow<int>().Reason.InnerException.Should().Be(_innerEx);
         }
+
+        [Fact]
+        public void Stack_trace_is_retrievable()
+        {
+            _nil1.NilOrThrow().Reason.OutcomeStackTrace.Should().Contain("OutcomeCs.Tests");
+            _nil2.NilOrThrow().Reason.OutcomeStackTrace.Should().Contain("OutcomeCs.Tests");
+        }
+
+        [Fact]
+        public void Message_trace_is_retrievable()
+        {
+            _nil1.NilOrThrow().Reason.OutcomeMessageTrace.Should().Be("1");
+            _nil2.NilOrThrow().Reason.OutcomeMessageTrace.Should().Be($"2{Environment.NewLine}3");
+        }
     }
 }
