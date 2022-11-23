@@ -83,6 +83,7 @@ There are several reasons why a function cannot provide a defined resource, but 
                      [Nothing<T>]  [Error<T>]              
 ```
 For example, let us assume that we have a function that returns the first element in an array.
+The class `Nil` replaces class `Nothing` in this example.
 It would be reasonable to make the following computational rules:
 - If the input array do not exist (is `null`), then we return an `Error`.
 - If the input array do exist but it is empty, that is OK, but since there is no value to return we choose to return `Nil`.
@@ -94,32 +95,14 @@ It would be reasonable to make the following computational rules:
         return list?.Count switch
         {
             null => Outcome<T>.Error("Array is undefined"),
-            0 => Outcome<T>.Nothing("Array is empty"),
+            0 => Outcome<T>.Nil("Array is empty"),
             _ => list[0] switch
             {
-                null => Outcome<T>.Nothing("First item is null"),
+                null => Outcome<T>.Nil("First item is null"),
                 _ => Outcome<T>.Ok(list[0])
             }
         };
     }
-```
-There are of course other situations where we would consider it an error if the first element does not exists or is  `null`.
-That leads to a different choice of outcomes.
-```
-    public static Outcome<T> FirstInList_2<T>(List<T> list)
-    {
-        return list?.Count switch
-        {
-            null => Outcome<T>.Error("Array is undefined"),
-            0 => Outcome<T>.Error("Array is empty"), // <== Was Nil
-            _ => list[0] switch
-            {
-                null => Outcome<T>.Error("First item is null"), // <== Was Nil
-                _ => Outcome<T>.Ok(list[0])
-            }
-        };
-    }
-
 ```
 The basic ontology is now in place.
 However, it is possible to do some syntactical changes that arguably can make this library more intuitive to use.
@@ -129,7 +112,7 @@ Alias relations are indicated with the notation `||`.
 ```
            [Outcome]
          /     |     \
-[Success]  [Failure]  [Result<T>] 
+[Success]  [Failure]  [Outcome<T>] 
    ||         ||           |
   [Ok]      [Error]        | 
                          /    \
@@ -139,11 +122,11 @@ Alias relations are indicated with the notation `||`.
                              ||
                            [Nil<T>]              
 ```
-Preening the ontology by removing the original terms, we end up with:
+By preening the ontology by removing the original terms, we end up with:
 ```
             [Outcome]
           /     |     \
-       [Ok]  [Error]  [Result<T>] 
+       [Ok]  [Error]  [Outcome<T>] 
                         /    \
                    [Ok<T>]  [Undefined<T>]              
                                /    \
@@ -172,8 +155,8 @@ a function returning a value of type `T`.
 - `Ok` - When a subroutine has successfully completed.
 - `Error` - When a subroutine fail to complete it's task. It is often reasonable to map exceptions to `Error`.
 - `Ok<T>` - When a function is able to produce a valid value.
-- `Nil<T>` - When a function is successful but a return value is not applicable. It is often reasonable to map `null` to `Nil<T>`.
-- `Error<T>` - When a function fail. Usually due to invalid input values or unavailable resources.  It is often reasonable to map exceptions to `Error<T>`.
+- `Nil<T>` - When a function is successful but a well defined return value is not available. It is often reasonable to map `null` to `Nil<T>`.
+- `Error<T>` - When a function fail. Usually due to invalid input values or failing access to resources.  It is often reasonable to map exceptions to `Error<T>`.
 
 The Outcome library imposes a slight computational overhead.
 That should not matter much since the extra drag is diminishing small when it is used for 

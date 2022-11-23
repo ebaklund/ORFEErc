@@ -21,4 +21,17 @@ public record Outcome : CheckCountedOutcome
     {
         return new Error(message, innerEx);
     }
+
+    public static Outcome FromRunning(Action action)
+    {
+        try
+        {
+            action();
+            return Outcome.Ok();
+        }
+        catch (Exception innerEx)
+        {
+            return Outcome.Error("Outcome wrapper received an exception.", innerEx);
+        }
+    }
 }
