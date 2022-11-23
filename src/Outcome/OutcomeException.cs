@@ -1,4 +1,7 @@
 ﻿
+
+using System.Text;
+
 namespace OutcomeCs;
 
 public class OutcomeException : ApplicationException
@@ -25,21 +28,19 @@ public class OutcomeException : ApplicationException
     internal OutcomeException(string message, Exception innerEx)
         : base(message, innerEx)
     {
-        if (innerEx.InnerException == null)
+        var baseEx = this.GetBaseException();
+
+        if (!baseEx.Data.Contains(OutcomeStackTraceKey))
         {
-            AttachStackTrace(innerEx);
+            AttachStackTrace(baseEx);
         }
     }
 
-    public string OutcomeStackTrace
+    public string? OutcomeStackTrace
     {
         get 
         {
-            var baseEx = this.GetBaseException();
-
-            return (baseEx.Data.Contains(OutcomeStackTraceKey) && baseEx.Data[OutcomeStackTraceKey] is string stackTrace)
-                ? stackTrace
-                : "<no stack trace found>";
+            return this.GetBaseException().Data[OutcomeStackTraceKey] as string;
         }
     }
 
@@ -47,14 +48,14 @@ public class OutcomeException : ApplicationException
     {
         get
         {
-            var messageTrace = this.Message;
+            var messageTrace = new StringBuilder(this.Message);
 
             for (Exception ex = this; ex.InnerException is not null; ex = ex.InnerException)
             {
-            messageTrace += $"{Environment.NewLine}{ex.InnerException.Message}";
+                messageTrace.Append($"{Environment.NewLine}{ex.InnerException.Message}");
             }
 
-            return messageTrace;
+            return messageTrace.ToString();
         }
     }
 }
