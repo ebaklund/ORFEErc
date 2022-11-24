@@ -21,6 +21,13 @@ public class Given_an_Ok_Constructor
         }
 
         [Fact]
+        public async Task Result_can_async_resolve_to_Ok()
+        {
+            Func<Task<Ok>> func = () => Task<Outcome>.Run(() => Outcome.Ok()).OkOrThrowAsync();
+            await func.Should().NotThrowAsync();
+        }
+
+        [Fact]
         public void Result_cannot_resolve_to_Error()
         {
             Func<Outcome> func = () => _ok.ErrorOrThrow();

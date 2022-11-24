@@ -19,7 +19,7 @@ public record Nil<T> : Undefined<T>
     }
 }
 
-public static class NilExtension
+public static class NilTOutcomeExtensions
 {
     public static Nil<T> NilOrThrow<T>(this Outcome<T> outcome)
     {
@@ -30,5 +30,10 @@ public static class NilExtension
             Nil<T> nothing => nothing,
             _ => throw new System.InvalidCastException($"Input Outcome is not of type: Nil<{typeof(T).Name}>.")
         };
+    }
+
+    public static async Task<Nil<T>> NilOrThrowAsync<T>(this Task<Outcome<T>> task)
+    {
+        return (await task.ConfigureAwait(false)).NilOrThrow();
     }
 }

@@ -1,4 +1,6 @@
 
+using FluentAssertions;
+
 namespace OutcomeCs.Tests;
 
 public class Given_an_Error_Constructor
@@ -21,10 +23,17 @@ public class Given_an_Error_Constructor
         }
 
         [Fact]
-        public void Result_can_resolve_to_ErrorT()
+        public void Result_can_resolve_to_Error()
         {
-            Func<Outcome> func = () => _err1.ErrorOrThrow();
+            Func<Error> func = () => _err1.ErrorOrThrow();
             func.Should().NotThrow();
+        }
+
+        [Fact]
+        public async Task Result_can_async_resolve_to_Error()
+        {
+            Func<Task<Error>> func = () => Task<Outcome>.Run(() => Outcome.Error(_msg1)).ErrorOrThrowAsync();
+            await func.Should().NotThrowAsync();
         }
 
         [Fact]

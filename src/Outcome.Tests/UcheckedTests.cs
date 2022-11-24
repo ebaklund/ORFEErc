@@ -73,7 +73,7 @@ public class Given_CheckCountedOutcomes
          Action act = () => 
          { 
             using var ok = Outcome<int>.Ok(1);
-            ok.OkOrThrow();
+            ok.ValueOrThrow();
          };
 
          act.Should().NotThrow();

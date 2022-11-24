@@ -12,7 +12,7 @@ public record Error(ErrorOutcomeException Reason) : Outcome
     }
 }
 
-public static class ErrorResultExtension
+public static class ErrorOutcomeExtensions
 {
     public static Error ErrorOrThrow(this Outcome outcome)
     {
@@ -23,5 +23,10 @@ public static class ErrorResultExtension
             Error error => error,
             _ => throw new  System.InvalidCastException("Input Result is not of type: Error.")
         };
+    }
+
+    public static async Task<Error> ErrorOrThrowAsync(this Task<Outcome> task)
+    {
+        return (await task.ConfigureAwait(false)).ErrorOrThrow();
     }
 }

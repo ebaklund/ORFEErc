@@ -21,13 +21,10 @@ public class Given_an_OkT_Constructor
         }
 
         [Fact]
-        public void Outcome_can_resolve_to_Ok()
+        public async Task Result_can_async_resolve_to_ValueT()
         {
-            Func<Outcome<int>> func1 = () => _ok1.OkOrThrow<int>();
-            func1.Should().NotThrow();
-
-            Func<Outcome<string>> func2 = () => _ok2.OkOrThrow<string>();
-            func2.Should().NotThrow();
+            Func<Task<int>> func = () => Task<Outcome<int>>.Run(() => Outcome<int>.Ok(_value1)).ValueOrThrowAsync();
+            await func.Should().NotThrowAsync();
         }
 
         [Fact]

@@ -35,10 +35,10 @@ public class Given_an_NilT_Constructor
         }
 
         [Fact]
-        public void Outcome_cannot_resolve_to_OkT()
+        public async Task Result_can_async_resolve_to_NilT()
         {
-            Func<Outcome<int>> func = () => _nil1.OkOrThrow<int>();
-            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Outcome is not of type: Ok<Int32>.");
+            Func<Task<Nil<int>>> func = () => Task<Outcome<int>>.Run(() => Outcome<int>.Nil(_msg1)).NilOrThrowAsync();
+            await func.Should().NotThrowAsync();
         }
 
         [Fact]

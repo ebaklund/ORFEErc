@@ -28,18 +28,25 @@ public class Given_an_ErrorT_Constructor
         }
 
         [Fact]
+        public async Task Result_can_async_resolve_to_Error()
+        {
+            Func<Task<Error<int>>> func = () => Task<Outcome<int>>.Run(() => Outcome<int>.Error(_msg1)).ErrorOrThrowAsync();
+            await func.Should().NotThrowAsync();
+        }
+
+        [Fact]
         public void Outcome_can_resolve_to_UndefinedT()
         {
             Func<Outcome<int>> func = () => _err1.UndefinedOrThrow<int>();
             func.Should().NotThrow();
         }
 
-        [Fact]
-        public void Outcome_cannot_resolve_to_OkT()
-        {
-            Func<Outcome<int>> func = () => _err1.OkOrThrow<int>();
-            func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Outcome is not of type: Ok<Int32>.");
-        }
+        //[Fact]
+        //public void Outcome_cannot_resolve_to_OkT()
+        //{
+        //    Func<Outcome<int>> func = () => _err1.OkOrThrow<int>();
+        //    func.Should().Throw<InvalidCastException>().Which.Message.Should().Match("Input Outcome is not of type: Ok<Int32>.");
+        //}
 
         [Fact]
         public void Outcome_cannot_resolve_to_Value()

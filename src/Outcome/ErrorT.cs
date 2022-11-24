@@ -19,7 +19,7 @@ public record Error<T> : Undefined<T>
     }
 }
 
-public static class ErrorTOutcomeExtension
+public static class ErrorTOutcomeExtensions
 {
     public static Error<T> ErrorOrThrow<T>(this Outcome<T> outcome)
     {
@@ -30,5 +30,10 @@ public static class ErrorTOutcomeExtension
             Error<T> error => error,
             _ => throw new  System.InvalidCastException($"Input Outcome is not of type: Error<{typeof(T).Name}>.")
         };
+    }
+
+    public static async Task<Error<T>> ErrorOrThrowAsync<T>(this Task<Outcome<T>> task)
+    {
+        return (await task.ConfigureAwait(false)).ErrorOrThrow();
     }
 }
